@@ -26,8 +26,8 @@ def parse_dropback(text):
         return 0
 
 
-def compute_qb_stats(actions):
-    print(actions[0])
+def compute_qb_stats(qb_action_group):
+    actions = qb_action_group
     drop_back_count = len([1 for a in actions
                            if a['observations']['SG/UC'] in ['SG', 'UC']])
 
@@ -68,13 +68,16 @@ def compute_qb_stats(actions):
     hurried_count = sum([1 for a in actions
                        if a['observations']['Hur'] == '1'])
 
+    drop_count = sum([1 for a in actions
+                       if a['observations']['Drop'] == '1'])
+
     action_count = len(actions)
 
+    completion_rate = (round(completions / attempts, 3) if attempts > 0 else 0 )
 
-    completion_rate = round(completions / attempts, 3) if attempts > 0 else 0
+    air_yards_per_attempt = (round(air_yards / attempts, 3) if attempts > 0 else 0)
 
 
-    air_yards_per_attempt = round(air_yards / attempts, 3) if attempts > 0 else 0
 
 
 
@@ -90,10 +93,31 @@ def compute_qb_stats(actions):
         'touchdown_count': touchdown_count,
         'interception_count': interception_count,
         'throwaway_count': throwaway_count,
+        'drop_count': drop_count,
         'sack_count': sack_count,
         'hit_count': hit_count,
         'hurried_count': hurried_count
     }
+
+
+def preprocess(games):
+    for game in games:
+        for quarter in game['quarters']:
+            for play in quarter['plays']:
+                for action in play['actions']:
+                    if 'athlete' in action:
+                        action['athlete'] = action['athlete']['$oid']
+
+                    if action['action_type'] == 'quarterback':
+                        receiver_actions = [a for a in play['actions']
+                                            if a['action_type'] == 'receiver']
+                        if(len(receiver_actions) == 1):
+                            action['observations']['Drop'] = receiver_actions[0]['observations']['Drop']
+                        else:
+                            action['observations']['Drop'] = 0
+
+
+
 
 def get_actions(games, game_filter):
     action_type = game_filter['action_type']
@@ -105,6 +129,8 @@ def get_actions(games, game_filter):
                 for action in play['actions']:
                     if 'athlete' in action:
                         if action['action_type'] == action_type:
-                            action['athlete'] = action['athlete']['$oid']
                             actions.append(action)
+
+
+
     return actions

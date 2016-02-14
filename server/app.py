@@ -1,13 +1,13 @@
 import falcon
 import json
-from stats import compute_qb_stats, get_actions, group_by_athlete
+from stats import compute_qb_stats, get_actions, group_by_athlete, preprocess
 
 api = application = falcon.API()
 
 
 with open('../data/games.json', 'r') as f:
     games = json.load(f)
-
+    preprocess(games)
 
 
 
