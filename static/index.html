@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/style.css"/>
+    <link rel="stylesheet" href="/static/chosen/chosen.css"/>
+
+    <script type="text/javascript" src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/bower_components/knockout/dist/knockout.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.15/d3.min.js"></script>
+    <script type="text/javascript" src="/static/bower_components/vega/vega.js"></script>
+    <script type="text/javascript" src="/static/bower_components/reqwest/reqwest.min.js"></script>
+    <script type="text/javascript" src="/static/bower_components/tablesorter/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="/static/chosen/chosen.jquery.min.js"></script>
+
+
+    <script type="text/javascript" src="/static/app.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">College Football Filmroom</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <form class="navbar-form navbar-left navbar-input-group" role="search">
+
+              <div class="form-group">
+                <label class="control-label hcl">Position: </label>
+                <select class="form-control select2" data-bind="options: positionOptions, value: selectedPosition">
+                  <option value="quarterback">Quarterback</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label hcl">Quarter: </label>
+                <select class="form-control" data-bind="options: quarterOptions, value: selectedQuarter" data-placeholder="all">
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label hcl">Down: </label>
+                <select class="form-control" data-bind="options: downOptions, value: selectedDown" data-placeholder="all">
+                </select>
+              </div>
+
+            </form>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <table class="table tablesorter" style="margin-top: 4em;" id="stats-table">
+      <thead>
+        <tr>
+          <th>QB</th>
+          <!--<th>Tm</th>-->
+          <th>Db</th>
+          <th>Att</th>
+          <th>Comp</th>
+          <th>Comp %</th>
+          <th>AY/Att</th>
+          <th>Yds</th>
+          <th>Press</th>
+          <th>TD</th>
+          <th>Int</th>
+          <th>Dps</th>
+          <th>TA</th>
+          <th>Sk</th>
+          <th>Ht</th>
+          <th>Hur</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: quarterbacks">
+        <tr>
+          <td><span data-bind="text: athlete.first + ' ' + athlete.last"></span></td>
+          <!--<td><span></span></td>-->
+          <td><span data-bind="text: stats.dropback_count"></span></td>
+          <td><span data-bind="text: stats.attempts"></span></td>
+          <td><span data-bind="text: stats.completions"></span></td>
+          <td><span data-bind="text: stats.completion_rate"></span></td>
+          <td><span data-bind="text: stats.air_yards_per_attempt"></span></td>
+          <td><span data-bind="text: stats.total_yards"></span></td>
+          <td><span data-bind="text: stats.pressured_count"></span></td>
+          <td><span data-bind="text: stats.touchdown_count"></span></td>
+          <td><span data-bind="text: stats.interception_count"></span></td>
+          <td><span data-bind="text: stats.drop_count"></span></td>
+          <td><span data-bind="text: stats.throwaway_count"></span></td>
+          <td><span data-bind="text: stats.sack_count"></span></td>
+          <td><span data-bind="text: stats.hit_count"></span></td>
+          <td><span data-bind="text: stats.hurried_count"></span></td>
+
+
+        </tr>
+      </tbody>
+
+    </table>
+
+
+  </body>
+</html>

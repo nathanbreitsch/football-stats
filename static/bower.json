@@ -1,0 +1,26 @@
+{
+  "name": "static",
+  "homepage": "https://github.com/nathanbreitsch/football-stats",
+  "authors": [
+    "nathan breitsch <nathanbreitsch@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "d3": "^3.5.15",
+    "knockout": "^3.4.0",
+    "reqwest": "^2.0.5",
+    "vega": "^2.4.2"
+  }
+}

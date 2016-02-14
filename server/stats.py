@@ -73,9 +73,9 @@ def compute_qb_stats(qb_action_group):
 
     action_count = len(actions)
 
-    completion_rate = (round(completions / attempts, 3) if attempts > 0 else 0 )
+    completion_rate = (round(completions * 100 / attempts, 1) if attempts > 0 else 0 )
 
-    air_yards_per_attempt = (round(air_yards / attempts, 3) if attempts > 0 else 0)
+    air_yards_per_attempt = (round(air_yards * 100 / attempts, 1) if attempts > 0 else 0)
 
 
 
@@ -117,19 +117,21 @@ def preprocess(games):
                             action['observations']['Drop'] = 0
 
 
-
-
 def get_actions(games, game_filter):
-    action_type = game_filter['action_type']
+    action_type = game_filter['action_type'] if 'action_type' in game_filter else 'quarterback'
+    selected_down = game_filter['down'] if 'down' in game_filter else []
+    selected_quarter = game_filter['quarter'] if 'quarter' in game_filter else []
 
     actions = []
     for game in games:
         for quarter in game['quarters']:
-            for play in quarter['plays']:
-                for action in play['actions']:
-                    if 'athlete' in action:
-                        if action['action_type'] == action_type:
-                            actions.append(action)
+            if selected_quarter == 'All' or str(quarter['index']) == str(selected_quarter):
+                for play in quarter['plays']:
+                    if selected_down == 'All' or str(play['down']) == str(selected_down):
+                        for action in play['actions']:
+                            if 'athlete' in action:
+                                if action['action_type'] == action_type:
+                                    actions.append(action)
 
 
 
